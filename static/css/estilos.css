@@ -1,0 +1,381 @@
+/*ESTILOS.CSS — Página de Voleibol
+   Paleta: Negro dominante | Blanco, Verde (#00C853), Rojo (#E53935)*/
+
+/* ---------- Variables ---------- */
+:root {
+  --negro: #000000;
+  --negro-suave: #050505;
+  --negro-medio: #0a0a0a;
+  --blanco: #ffffff;
+  --blanco-suave: #F0F0F0;
+  --verde: #00C853;
+  --verde-oscuro: #1DB954;
+  --rojo: #E53935;
+  --rojo-vivo: #FF1744;
+  --fuente-titulo: 'Bebas Neue', sans-serif;
+  --fuente-cuerpo: 'Chakra Petch', sans-serif;
+  --brillo-blanco: 0 0 8px #fff, 0 0 20px rgba(255,255,255,0.6);
+  --brillo-verde: 0 0 8px #00C853, 0 0 25px rgba(0,200,83,0.5);
+  --brillo-rojo: 0 0 8px #E53935, 0 0 25px rgba(229,57,53,0.5);
+}
+
+/* ---------- Reset y base ---------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--negro);
+  color: var(--blanco);
+  font-family: var(--fuente-cuerpo);
+  overflow-x: hidden;
+}
+
+/*CANVAS DE FONDO (partículas)*/
+#canvas-fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/*BARRA DE NAVEGACIÓN*/
+.barra-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+  backdrop-filter: blur(4px);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.logo-balon {
+  width: 42px;
+  height: 42px;
+  animation: pulso-logo 3s ease-in-out infinite;
+}
+
+@keyframes pulso-logo {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(255,255,255,0.4)); }
+  50% { filter: drop-shadow(0 0 10px rgba(0,200,83,0.7)); }
+}
+
+.logo-texto {
+  font-family: var(--fuente-titulo);
+  font-size: 1.6rem;
+  letter-spacing: 0.2em;
+  color: var(--blanco);
+  text-shadow: var(--brillo-blanco);
+}
+
+.nav-enlaces {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-enlaces a {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--blanco-suave);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.nav-enlaces a:hover {
+  color: var(--verde);
+  text-shadow: var(--brillo-verde);
+}
+
+/*SECCIÓN PRINCIPAL — pantalla completa fija
+   El scroll nativo está bloqueado; JS maneja todo*/
+.seccion-principal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+.escena-sticky {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Canvas de animación (jugador + balón) */
+#canvas-animacion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/*TEXTOS DE CADA FRAME*/
+.contenedor-textos {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.texto-frame {
+  position: absolute;
+  bottom: 12vh;
+  left: 6vw;
+  max-width: 520px;
+  pointer-events: all;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.texto-frame.oculto {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.texto-subtitulo {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.78rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0.5rem;
+}
+
+.texto-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.03em;
+  color: var(--blanco);
+  text-shadow: 0 0 40px rgba(255,255,255,0.15);
+  margin-bottom: 1.2rem;
+}
+
+.texto-descripcion {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 2rem;
+}
+
+/* Acentos de color en títulos */
+.acento-blanco {
+  color: var(--blanco);
+  text-shadow: var(--brillo-blanco);
+}
+
+.acento-verde {
+  color: var(--verde);
+  text-shadow: var(--brillo-verde);
+}
+
+.acento-rojo {
+  color: var(--rojo-vivo);
+  text-shadow: var(--brillo-rojo);
+}
+
+/*BOTÓN LIQUID GLASS CON FUEGO*/
+.boton-cristal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(229, 57, 53, 0.6);
+  border-radius: 4px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-decoration: none;
+  overflow: visible;
+  cursor: pointer;
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+  box-shadow: 0 0 15px rgba(229,57,53,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.boton-cristal:hover {
+  background: rgba(229, 57, 53, 0.12);
+  border-color: rgba(255, 23, 68, 0.9);
+  box-shadow: 0 0 30px rgba(229,57,53,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+.boton-texto {
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+  letter-spacing: 0.25em;
+  color: var(--blanco);
+  text-shadow: 0 0 10px rgba(255,80,60,0.6);
+  position: relative;
+  z-index: 2;
+}
+
+/* Fuego debajo del botón */
+.fuego-boton {
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 20px;
+  pointer-events: none;
+}
+
+.fuego-boton::before,
+.fuego-boton::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  border-radius: 50% 50% 30% 30%;
+  animation: llamita 0.8s ease-in-out infinite alternate;
+}
+
+.fuego-boton::before {
+  width: 60%;
+  height: 18px;
+  left: 20%;
+  background: radial-gradient(ellipse at bottom, #FF6D00, #E53935, transparent);
+  animation-delay: 0s;
+  opacity: 0.85;
+}
+
+.fuego-boton::after {
+  width: 35%;
+  height: 14px;
+  left: 32%;
+  background: radial-gradient(ellipse at bottom, #FFD600, #FF6D00, transparent);
+  animation-delay: 0.15s;
+  opacity: 0.9;
+}
+
+@keyframes llamita {
+  0% { transform: scaleX(1) scaleY(1) translateY(0); }
+  100% { transform: scaleX(0.85) scaleY(1.2) translateY(-3px); }
+}
+
+.boton-cristal:hover .fuego-boton::before {
+  height: 26px;
+  opacity: 1;
+}
+.boton-cristal:hover .fuego-boton::after {
+  height: 20px;
+  opacity: 1;
+}
+
+/*PLANTILLA EQUIPOS (placeholder)*/
+.pagina-equipos {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: var(--negro);
+  color: var(--blanco);
+  font-family: var(--fuente-titulo);
+}
+
+.pagina-equipos h1 {
+  font-size: 4rem;
+  letter-spacing: 0.1em;
+  color: var(--verde);
+  text-shadow: var(--brillo-verde);
+}
+
+/*ANIMACIONES CSS GLOBALES*/
+
+/* Rotación continua del balón (se aplica desde JS con clase) */
+@keyframes rotar-balon {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Destello de impacto */
+@keyframes destello-impacto {
+  0% { opacity: 0; transform: scale(0.5); }
+  30% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(2); }
+}
+
+/* Pulso neón genérico */
+@keyframes pulso-neon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Línea de velocidad */
+@keyframes estela-vel {
+  from { opacity: 0.8; transform: scaleX(1); }
+  to { opacity: 0; transform: scaleX(2); }
+}
+
+/*login */
+.nav-login {
+  opacity: 0.3;
+  font-size: 0.7rem !important;
+  transition: opacity 0.3s !important;
+}
+.nav-login:hover {
+  opacity: 0.8;
+  color: var(--blanco) !important;
+  text-shadow: none !important;
+}
+
+button.nav-logout {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--rojo);
+  text-transform: uppercase;
+  transition: color 0.3s, text-shadow 0.3s;
+  padding: 0;
+  line-height: normal;
+}
+button.nav-logout:hover {
+  color: var(--rojo-vivo);
+  text-shadow: var(--brillo-rojo);
+}

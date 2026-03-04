@@ -1,0 +1,57 @@
+{% extends 'equipos/admin/base_admin.html' %}
+{% block contenido %}
+<div class="form-wrap">
+  <p class="texto-subtitulo">{{ equipo.nombre }} — {% if jugador %}Editando jugador{% else %}Nuevo jugador{% endif %}</p>
+  <h1 class="texto-titulo">{% if jugador %}{{ jugador.nombre_completo|upper }}{% else %}AGREGAR <span class="acento-verde">JUGADOR</span>{% endif %}</h1>
+
+  <form method="post" class="admin-form">
+    {% csrf_token %}
+    <div class="campo-grid">
+      <div class="campo">
+        <label>POSICIÓN EN CANCHA <span class="campo-hint">(0-5)</span></label>
+        <input type="number" name="orden" min="0" max="5" required value="{{ jugador.orden|default:'0' }}"/>
+      </div>
+      <div class="campo">
+        <label>POSICIÓN</label>
+        <select name="posicion" required>
+          {% for valor, etiqueta in posiciones %}
+          <option value="{{ valor }}" {% if jugador.posicion == valor %}selected{% endif %}>{{ etiqueta }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="campo-grid">
+      <div class="campo">
+        <label>NOMBRE CORTO <span class="campo-hint">(para la cancha)</span></label>
+        <input type="text" name="nombre" required placeholder="Giannelli" value="{{ jugador.nombre|default:'' }}"/>
+      </div>
+      <div class="campo">
+        <label>NOMBRE COMPLETO</label>
+        <input type="text" name="nombre_completo" required placeholder="Simone Giannelli" value="{{ jugador.nombre_completo|default:'' }}"/>
+      </div>
+    </div>
+    <div class="campo-grid tres">
+      <div class="campo">
+        <label>EDAD</label>
+        <input type="number" name="edad" required min="16" max="50" value="{{ jugador.edad|default:'' }}"/>
+      </div>
+      <div class="campo">
+        <label>ALTURA (cm)</label>
+        <input type="number" name="altura_cm" required min="150" max="230" value="{{ jugador.altura_cm|default:'' }}"/>
+      </div>
+      <div class="campo">
+        <label>PESO (kg)</label>
+        <input type="number" name="peso_kg" required min="50" max="150" value="{{ jugador.peso_kg|default:'' }}"/>
+      </div>
+    </div>
+    <div class="campo">
+      <label>FOTO <span class="campo-hint">(nombre del archivo en /static/img/)</span></label>
+      <input type="text" name="foto" required placeholder="jugador1.png" value="{{ jugador.foto|default:'' }}"/>
+    </div>
+    <div class="form-botones">
+      <button type="submit" class="btn-admin btn-verde">GUARDAR</button>
+      <a href="{% url 'admin_panel' %}" class="btn-admin btn-blanco">CANCELAR</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

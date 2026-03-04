@@ -1,0 +1,26 @@
+[
+  {"model":"equipos.equipo","pk":1,"fields":{"slug":"italia","nombre":"ITALIA","subtitulo":"Campeones del Mundo 2025","clase_color":"equipo-italia","imagen":"equipo-italia.png"}},
+  {"model":"equipos.equipo","pk":2,"fields":{"slug":"polonia","nombre":"POLONIA","subtitulo":"Número 1 del ranking mundial FIVB","clase_color":"equipo-polonia","imagen":"equipo-polonia.png"}},
+  {"model":"equipos.equipo","pk":3,"fields":{"slug":"brasil","nombre":"BRASIL","subtitulo":"Tres veces campeones del mundo","clase_color":"equipo-brasil","imagen":"equipo-brasil.png"}},
+
+  {"model":"equipos.jugador","pk":1,"fields":{"equipo":1,"orden":0,"nombre":"Giannelli","nombre_completo":"Simone Giannelli","posicion":"Armador","edad":29,"altura_cm":200,"peso_kg":80,"foto":"jugador1.png"}},
+  {"model":"equipos.jugador","pk":2,"fields":{"equipo":1,"orden":1,"nombre":"Michieletto","nombre_completo":"Alessandro Michieletto","posicion":"Receptor/Atacante","edad":23,"altura_cm":211,"peso_kg":95,"foto":"jugador2.png"}},
+  {"model":"equipos.jugador","pk":3,"fields":{"equipo":1,"orden":2,"nombre":"Russo","nombre_completo":"Roberto Russo","posicion":"Central","edad":28,"altura_cm":207,"peso_kg":91,"foto":"jugador3.png"}},
+  {"model":"equipos.jugador","pk":4,"fields":{"equipo":1,"orden":3,"nombre":"Romanò","nombre_completo":"Yuri Romanò","posicion":"Opuesto","edad":28,"altura_cm":201,"peso_kg":89,"foto":"jugador4.png"}},
+  {"model":"equipos.jugador","pk":5,"fields":{"equipo":1,"orden":4,"nombre":"Bottolo","nombre_completo":"Mattia Bottolo","posicion":"Receptor/Atacante","edad":25,"altura_cm":196,"peso_kg":85,"foto":"jugador5.png"}},
+  {"model":"equipos.jugador","pk":6,"fields":{"equipo":1,"orden":5,"nombre":"Balaso","nombre_completo":"Fabio Balaso","posicion":"Líbero","edad":30,"altura_cm":178,"peso_kg":73,"foto":"jugador6.png"}},
+
+  {"model":"equipos.jugador","pk":7,"fields":{"equipo":2,"orden":0,"nombre":"Kurek","nombre_completo":"Bartosz Kurek","posicion":"Opuesto","edad":37,"altura_cm":207,"peso_kg":104,"foto":"jugador7.png"}},
+  {"model":"equipos.jugador","pk":8,"fields":{"equipo":2,"orden":1,"nombre":"Leon","nombre_completo":"Wilfredo Leon","posicion":"Receptor/Atacante","edad":32,"altura_cm":201,"peso_kg":95,"foto":"jugador8.png"}},
+  {"model":"equipos.jugador","pk":9,"fields":{"equipo":2,"orden":2,"nombre":"Kochanowski","nombre_completo":"Jakub Kochanowski","posicion":"Central","edad":28,"altura_cm":199,"peso_kg":95,"foto":"jugador9.png"}},
+  {"model":"equipos.jugador","pk":10,"fields":{"equipo":2,"orden":3,"nombre":"Fornal","nombre_completo":"Tomasz Fornal","posicion":"Receptor/Atacante","edad":28,"altura_cm":200,"peso_kg":97,"foto":"jugador10.png"}},
+  {"model":"equipos.jugador","pk":11,"fields":{"equipo":2,"orden":4,"nombre":"Sasak","nombre_completo":"Kewin Sasak","posicion":"Opuesto","edad":28,"altura_cm":208,"peso_kg":104,"foto":"jugador11.png"}},
+  {"model":"equipos.jugador","pk":12,"fields":{"equipo":2,"orden":5,"nombre":"Popiwczak","nombre_completo":"Jakub Popiwczak","posicion":"Líbero","edad":29,"altura_cm":180,"peso_kg":77,"foto":"jugador12.png"}},
+
+  {"model":"equipos.jugador","pk":13,"fields":{"equipo":3,"orden":0,"nombre":"Lucarelli","nombre_completo":"Ricardo Lucarelli","posicion":"Receptor/Atacante","edad":33,"altura_cm":196,"peso_kg":96,"foto":"jugador13.png"}},
+  {"model":"equipos.jugador","pk":14,"fields":{"equipo":3,"orden":1,"nombre":"Kreling","nombre_completo":"Fernando Kreling","posicion":"Armador","edad":29,"altura_cm":186,"peso_kg":85,"foto":"jugador14.png"}},
+  {"model":"equipos.jugador","pk":15,"fields":{"equipo":3,"orden":2,"nombre":"Gualberto","nombre_completo":"Flávio Gualberto","posicion":"Central","edad":32,"altura_cm":199,"peso_kg":84,"foto":"jugador15.png"}},
+  {"model":"equipos.jugador","pk":16,"fields":{"equipo":3,"orden":3,"nombre":"Darlan","nombre_completo":"Darlan Souza","posicion":"Opuesto","edad":23,"altura_cm":192,"peso_kg":103,"foto":"jugador16.png"}},
+  {"model":"equipos.jugador","pk":17,"fields":{"equipo":3,"orden":4,"nombre":"Maique","nombre_completo":"Maique Nascimento","posicion":"Líbero","edad":28,"altura_cm":187,"peso_kg":78,"foto":"jugador17.png"}},
+  {"model":"equipos.jugador","pk":18,"fields":{"equipo":3,"orden":5,"nombre":"Xavier","nombre_completo":"Adriano Xavier","posicion":"Receptor/Atacante","edad":23,"altura_cm":201,"peso_kg":83,"foto":"jugador18.png"}}
+]

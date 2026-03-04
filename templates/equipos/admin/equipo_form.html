@@ -1,0 +1,37 @@
+{% extends 'equipos/admin/base_admin.html' %}
+{% block contenido %}
+<div class="form-wrap">
+  <p class="texto-subtitulo">{% if equipo %}Editando{% else %}Nuevo{% endif %} equipo</p>
+  <h1 class="texto-titulo">{% if equipo %}{{ equipo.nombre }}{% else %}CREAR <span class="acento-verde">EQUIPO</span>{% endif %}</h1>
+
+  <form method="post" class="admin-form">
+    {% csrf_token %}
+    {% if not equipo %}
+    <div class="campo">
+      <label>SLUG <span class="campo-hint">(ej: italia — sin espacios, minúsculas)</span></label>
+      <input type="text" name="slug" required placeholder="italia" value="{{ equipo.slug|default:'' }}"/>
+    </div>
+    {% endif %}
+    <div class="campo">
+      <label>NOMBRE</label>
+      <input type="text" name="nombre" required placeholder="ITALIA" value="{{ equipo.nombre|default:'' }}"/>
+    </div>
+    <div class="campo">
+      <label>SUBTÍTULO</label>
+      <input type="text" name="subtitulo" required placeholder="Campeones del Mundo 2025" value="{{ equipo.subtitulo|default:'' }}"/>
+    </div>
+    <div class="campo">
+      <label>CLASE COLOR <span class="campo-hint">(equipo-italia / equipo-polonia / equipo-brasil)</span></label>
+      <input type="text" name="clase_color" required placeholder="equipo-italia" value="{{ equipo.clase_color|default:'' }}"/>
+    </div>
+    <div class="campo">
+      <label>IMAGEN <span class="campo-hint">(nombre del archivo en /static/img/)</span></label>
+      <input type="text" name="imagen" required placeholder="equipo-italia.png" value="{{ equipo.imagen|default:'' }}"/>
+    </div>
+    <div class="form-botones">
+      <button type="submit" class="btn-admin btn-verde">GUARDAR</button>
+      <a href="{% url 'admin_panel' %}" class="btn-admin btn-blanco">CANCELAR</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

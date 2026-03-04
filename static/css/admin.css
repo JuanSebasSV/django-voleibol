@@ -1,0 +1,212 @@
+/* ── admin.css ── */
+.admin-body { overflow-y: auto; }
+
+.admin-main {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+}
+
+/* Header */
+.admin-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Mensajes */
+.admin-mensajes {
+  position: fixed;
+  top: 5rem;
+  right: 2rem;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.mensaje {
+  font-family: var(--fuente-cuerpo);
+  font-size: .78rem;
+  letter-spacing: .1em;
+  padding: .6rem 1.2rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0,200,83,.5);
+  background: rgba(0,200,83,.1);
+  color: var(--verde);
+  animation: fadeInRight .3s ease;
+}
+@keyframes fadeInRight {
+  from { opacity:0; transform:translateX(20px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+
+/* Sección de equipo */
+.admin-seccion {
+  background: rgba(6,6,6,.85);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 6px;
+  margin-bottom: 2.5rem;
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+.admin-seccion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.8rem;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.02);
+  flex-wrap: wrap;
+  gap: .8rem;
+}
+.admin-equipo-nombre {
+  font-family: var(--fuente-titulo);
+  font-size: 2rem;
+  letter-spacing: .15em;
+  color: #fff;
+  text-shadow: var(--brillo-blanco);
+}
+.admin-acciones { display: flex; gap: .6rem; flex-wrap: wrap; }
+
+/* Tabla */
+.admin-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--fuente-cuerpo);
+  font-size: .75rem;
+}
+.admin-tabla th {
+  padding: .7rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.admin-tabla td {
+  padding: .75rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  color: rgba(255,255,255,.8);
+  vertical-align: middle;
+}
+.admin-tabla tr:hover td { background: rgba(255,255,255,.03); }
+.td-nombre { font-weight: 600; color: #fff; }
+.td-foto { color: rgba(255,255,255,.3); font-size: .68rem; }
+.td-orden { color: var(--verde); font-weight: 600; text-align: center; }
+.td-vacio { text-align: center; color: rgba(255,255,255,.2); padding: 2rem; }
+.td-acciones { display: flex; gap: .4rem; }
+
+.badge-posicion {
+  display: inline-block;
+  padding: .15rem .6rem;
+  border-radius: 3px;
+  background: rgba(0,200,83,.1);
+  border: 1px solid rgba(0,200,83,.3);
+  color: var(--verde);
+  font-size: .65rem;
+  letter-spacing: .1em;
+  white-space: nowrap;
+}
+
+/* Botones */
+.btn-admin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fuente-titulo);
+  letter-spacing: .15em;
+  text-decoration: none;
+  border: 1px solid;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background .25s, border-color .25s, box-shadow .25s, color .25s;
+  white-space: nowrap;
+  background: transparent;
+}
+/* Tamaños */
+.btn-admin:not(.btn-sm):not(.btn-xs) { font-size: 1rem; padding: .65rem 1.6rem; }
+.btn-sm  { font-size: .75rem; padding: .4rem .9rem; }
+.btn-xs  { font-size: .65rem; padding: .28rem .65rem; }
+
+/* Colores */
+.btn-verde  { border-color: var(--verde); color: var(--verde); }
+.btn-verde:hover  { background: rgba(0,200,83,.15); box-shadow: 0 0 14px rgba(0,200,83,.35); }
+.btn-blanco { border-color: rgba(255,255,255,.3); color: rgba(255,255,255,.8); }
+.btn-blanco:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.7); }
+.btn-rojo   { border-color: rgba(229,57,53,.6); color: var(--rojo); }
+.btn-rojo:hover   { background: rgba(229,57,53,.12); box-shadow: 0 0 14px rgba(229,57,53,.35); }
+
+/* Formularios */
+.form-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+}
+.form-wrap .texto-titulo { margin-bottom: 2.5rem; }
+
+.admin-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+.campo { display: flex; flex-direction: column; gap: .4rem; }
+.campo label {
+  font-family: var(--fuente-cuerpo);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+}
+.campo-hint {
+  font-weight: 300;
+  letter-spacing: .05em;
+  color: rgba(255,255,255,.25);
+  text-transform: none;
+}
+.campo input,
+.campo select {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 4px;
+  padding: .7rem 1rem;
+  color: #fff;
+  font-family: var(--fuente-cuerpo);
+  font-size: .85rem;
+  transition: border-color .25s, box-shadow .25s;
+  outline: none;
+  -webkit-appearance: none;
+}
+.campo input:focus,
+.campo select:focus {
+  border-color: var(--verde);
+  box-shadow: 0 0 0 2px rgba(0,200,83,.15);
+}
+.campo select option { background: #111; }
+
+.campo-grid       { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.campo-grid.tres  { grid-template-columns: 1fr 1fr 1fr; }
+
+.form-botones {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Confirmar eliminar */
+.confirmar-wrap { text-align: center; margin-top: 4rem; }
+.confirmar-aviso {
+  font-family: var(--fuente-cuerpo);
+  font-size: .85rem;
+  color: rgba(255,255,255,.4);
+  margin: 1.5rem 0 2rem;
+  line-height: 1.6;
+}
+.confirmar-wrap .form-botones { justify-content: center; }
+
+@media (max-width: 600px) {
+  .campo-grid, .campo-grid.tres { grid-template-columns: 1fr; }
+  .admin-seccion-header { flex-direction: column; align-items: flex-start; }
+}

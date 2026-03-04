@@ -1,0 +1,16 @@
+{% extends 'equipos/admin/base_admin.html' %}
+{% block contenido %}
+<div class="form-wrap confirmar-wrap">
+  <p class="texto-subtitulo">Confirmar eliminación</p>
+  <h1 class="texto-titulo">¿ELIMINAR <span class="acento-rojo">{{ objeto }}?</span></h1>
+  <p class="confirmar-aviso">
+    {% if tipo == 'equipo' %}Esta acción también eliminará todos los jugadores del equipo.{% else %}El jugador será eliminado permanentemente.{% endif %}
+    Esta acción no se puede deshacer.
+  </p>
+  <form method="post" class="form-botones">
+    {% csrf_token %}
+    <button type="submit" class="btn-admin btn-rojo">SÍ, ELIMINAR</button>
+    <a href="{% url 'admin_panel' %}" class="btn-admin btn-blanco">CANCELAR</a>
+  </form>
+</div>
+{% endblock %}

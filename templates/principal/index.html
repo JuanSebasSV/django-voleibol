@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voleibol — Adrenalina en cada saque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Chakra+Petch:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
+</head>
+<body>
+
+<!--BARRA DE NAVEGACIÓN-->
+<nav class="barra-nav">
+  <div class="nav-logo">
+    <!-- Logo SVG neón del balón -->
+    <svg class="logo-balon" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="brillo-logo">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <circle cx="30" cy="30" r="26" fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#brillo-logo)" opacity="0.9"/>
+      <!-- Líneas características del balón de voleibol -->
+      <path d="M 10 20 Q 30 5 50 20" fill="none" stroke="#00C853" stroke-width="1.8" filter="url(#brillo-logo)"/>
+      <path d="M 10 40 Q 30 55 50 40" fill="none" stroke="#E53935" stroke-width="1.8" filter="url(#brillo-logo)"/>
+      <path d="M 15 12 Q 8 30 15 48" fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#brillo-logo)" opacity="0.7"/>
+      <path d="M 45 12 Q 52 30 45 48" fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#brillo-logo)" opacity="0.7"/>
+      <path d="M 30 4 Q 30 30 30 56" fill="none" stroke="#00C853" stroke-width="1.2" filter="url(#brillo-logo)" opacity="0.5"/>
+    </svg>
+    <span class="logo-texto">VOLEIBOL</span>
+  </div>
+  <ul class="nav-enlaces">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/equipos/">Equipos</a></li>
+    {% if user.is_staff %}
+      <li><a href="/equipos/admin-panel/">Admin</a></li>
+      <li>
+        <form method="post" action="/accounts/logout/" style="margin:0">
+          {% csrf_token %}
+          <button type="submit" class="nav-logout">Salir</button>
+        </form>
+      </li>
+    {% else %}
+      <li><a href="/accounts/login/" class="nav-login">Acceso</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+<!--CANVAS DE FONDO (partículas)-->
+<canvas id="canvas-fondo"></canvas>
+
+<!--SECCIÓN PRINCIPAL SCROLLYTELLING-->
+<section class="seccion-principal" id="inicio">
+  <!-- Área sticky que permanece en pantalla -->
+  <div class="escena-sticky">
+
+    <!-- Canvas del jugador y balón -->
+    <canvas id="canvas-animacion"></canvas>
+
+    <!-- Textos de cada frame -->
+    <div class="contenedor-textos">
+
+      <!-- FRAME 1 -->
+      <div class="texto-frame" id="texto-frame-1">
+        <p class="texto-subtitulo">El deporte de la precisión absoluta</p>
+        <h1 class="texto-titulo">VOLEIBOL<br/><span class="acento-blanco">NO ES UN JUEGO</span></h1>
+        <p class="texto-descripcion">Es adrenalina pura. Reflejos de fracción de segundo.<br/>Concentración que desafía los límites humanos.</p>
+      </div>
+
+      <!-- FRAME 2 -->
+      <div class="texto-frame oculto" id="texto-frame-2">
+        <p class="texto-subtitulo">El momento antes de todo</p>
+        <h1 class="texto-titulo">CADA <span class="acento-verde">LANZAMIENTO</span><br/>ES UNA DECISIÓN</h1>
+        <p class="texto-descripcion">El balón asciende. El cuerpo se prepara.<br/>La mente ya sabe lo que va a pasar.</p>
+      </div>
+
+      <!-- FRAME 3 -->
+      <div class="texto-frame oculto" id="texto-frame-3">
+        <p class="texto-subtitulo">El instante del impacto</p>
+        <h1 class="texto-titulo">FUERZA<br/><span class="acento-rojo">SIN LÍMITES</span></h1>
+        <p class="texto-descripcion">Brazo arriba. Muñeca tensa. Un golpe que<br/>resuena desde la punta de los dedos hasta el suelo.</p>
+      </div>
+
+      <!-- FRAME 4 -->
+      <div class="texto-frame oculto" id="texto-frame-4">
+        <p class="texto-subtitulo">Los mejores del planeta</p>
+        <h1 class="texto-titulo">REMATE<br/><span class="acento-rojo">IMPARABLE</span></h1>
+        <p class="texto-descripcion">Conoce a los equipos que dominan la élite mundial del voleibol.</p>
+        <a href="/equipos/" class="boton-cristal">
+          <span class="boton-texto">EXPLORAR EQUIPOS</span>
+          <div class="fuego-boton"></div>
+        </a>
+      </div>
+
+    </div><!-- fin contenedor-textos -->
+  </div><!-- fin escena-sticky -->
+</section>
+
+<!-- Scripts -->
+
+
+<script src="{% static 'js/principal.js' %}"></script>
+</body>
+</html>

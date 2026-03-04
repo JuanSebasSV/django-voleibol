@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equipos — Voleibol Mundial 2025</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Chakra+Petch:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/equipos.css' %}" />
+</head>
+<body>
+
+  <!-- BARRA DE NAVEGACIÓN -->
+  <nav class="barra-nav">
+    <div class="nav-logo">
+      <svg class="logo-balon" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="brillo-logo">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <circle cx="30" cy="30" r="26" fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#brillo-logo)" opacity="0.9"/>
+        <path d="M 10 20 Q 30 5 50 20" fill="none" stroke="#00C853" stroke-width="1.8" filter="url(#brillo-logo)"/>
+        <path d="M 10 40 Q 30 55 50 40" fill="none" stroke="#E53935" stroke-width="1.8" filter="url(#brillo-logo)"/>
+        <path d="M 15 12 Q 8 30 15 48" fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#brillo-logo)" opacity="0.7"/>
+        <path d="M 45 12 Q 52 30 45 48" fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#brillo-logo)" opacity="0.7"/>
+        <path d="M 30 4 Q 30 30 30 56" fill="none" stroke="#00C853" stroke-width="1.2" filter="url(#brillo-logo)" opacity="0.5"/>
+      </svg>
+      <span class="logo-texto">VOLEIBOL</span>
+    </div>
+    <ul class="nav-enlaces">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/equipos/">Equipos</a></li>
+      {% if user.is_staff %}
+        <li><a href="/equipos/admin-panel/">Admin</a></li>
+        <li>
+          <form method="post" action="/accounts/logout/" style="margin:0">
+            {% csrf_token %}
+            <button type="submit" class="nav-logout">Salir</button>
+          </form>
+        </li>
+      {% else %}
+        <li><a href="/accounts/login/" class="nav-login">Acceso</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- CANVAS DE FONDO (partículas) -->
+  <canvas id="canvas-fondo"></canvas>
+
+  <!-- ============================================================
+       VISTA 1 — SELECCIÓN DE EQUIPO
+       ============================================================ -->
+  <div id="vista-seleccion">
+    <div class="seleccion-titulo">
+      <p class="texto-subtitulo">Campeonato Mundial FIVB 2025 · Filipinas</p>
+      <h1 class="texto-titulo">ELIGE TU <span class="acento-verde">EQUIPO</span></h1>
+    </div>
+
+    <div class="contenedor-tarjetas">
+
+      <!-- Tarjeta Italia -->
+      <div class="tarjeta-equipo" data-equipo="italia" role="button" tabindex="0">
+        <canvas class="canvas-borde" aria-hidden="true"></canvas>
+        <div class="tarjeta-imagen">
+          <img src="{% static 'img/equipo-italia.png' %}" alt="Italia" class="escudo-equipo" />
+        </div>
+        <div class="tarjeta-info">
+          <h2 class="tarjeta-nombre">ITALIA</h2>
+          <p class="tarjeta-desc">Campeones del Mundo 2025 — La Squadra Azzurra</p>
+        </div>
+      </div>
+
+      <!-- Tarjeta Polonia -->
+      <div class="tarjeta-equipo" data-equipo="polonia" role="button" tabindex="0">
+        <canvas class="canvas-borde" aria-hidden="true"></canvas>
+        <div class="tarjeta-imagen">
+          <img src="{% static 'img/equipo-polonia.png' %}" alt="Polonia" class="escudo-equipo" />
+        </div>
+        <div class="tarjeta-info">
+          <h2 class="tarjeta-nombre">POLONIA</h2>
+          <p class="tarjeta-desc">Número 1 del ranking mundial FIVB — Los Blancos</p>
+        </div>
+      </div>
+
+      <!-- Tarjeta Brasil -->
+      <div class="tarjeta-equipo" data-equipo="brasil" role="button" tabindex="0">
+        <canvas class="canvas-borde" aria-hidden="true"></canvas>
+        <div class="tarjeta-imagen">
+          <img src="{% static 'img/equipo-brasil.png' %}" alt="Brasil" class="escudo-equipo" />
+        </div>
+        <div class="tarjeta-info">
+          <h2 class="tarjeta-nombre">BRASIL</h2>
+          <p class="tarjeta-desc">Tres veces campeones del mundo — La Seleção</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       VISTA 2 — CANCHA
+       ============================================================ -->
+  <div id="vista-cancha">
+
+    <button id="btn-volver" class="btn-volver" aria-label="Volver">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      <span>EQUIPOS</span>
+    </button>
+
+    <div class="cancha-encabezado">
+      <p class="texto-subtitulo" id="cancha-subtitulo">Formación Titular</p>
+      <h2 class="cancha-titulo" id="cancha-titulo-equipo">—</h2>
+    </div>
+
+    <!-- Contenedor que tiene el canvas de cancha + los jugadores superpuestos -->
+    <div class="escena-cancha" id="escena-cancha">
+
+      <!-- Canvas de la cancha (fondo realista dibujado con JS) -->
+      <canvas id="canvas-cancha"></canvas>
+
+      <!-- Grid de posiciones superpuesto al canvas -->
+      <div class="grid-jugadores">
+
+        <!-- FILA DELANTERA (cerca de la red) -->
+        <div class="posicion-jugador" id="pos-4">
+          <div class="icono-jugador"></div>
+          <span class="nombre-jugador">—</span>
+        </div>
+        <div class="posicion-jugador" id="pos-3">
+          <div class="icono-jugador"></div>
+          <span class="nombre-jugador">—</span>
+        </div>
+        <div class="posicion-jugador" id="pos-2">
+          <div class="icono-jugador"></div>
+          <span class="nombre-jugador">—</span>
+        </div>
+
+        <!-- FILA TRASERA -->
+        <div class="posicion-jugador" id="pos-5">
+          <div class="icono-jugador"></div>
+          <span class="nombre-jugador">—</span>
+        </div>
+        <div class="posicion-jugador" id="pos-6">
+          <div class="icono-jugador"></div>
+          <span class="nombre-jugador">—</span>
+        </div>
+        <div class="posicion-jugador" id="pos-1">
+          <div class="icono-jugador"></div>
+          <span class="nombre-jugador">—</span>
+        </div>
+
+      </div><!-- fin grid-jugadores -->
+    </div><!-- fin escena-cancha -->
+
+  </div><!-- fin vista-cancha -->
+
+  <!-- ============================================================
+       TARJETA FIFA EMERGENTE (fuera del flujo, posicionada por JS)
+       ============================================================ -->
+  <div id="tarjeta-fifa" class="tarjeta-fifa equipo-italia" style="display:none;" aria-live="polite">
+    <div class="fifa-cuerpo">
+
+      <!-- Imagen del jugador: desborda por encima de la tarjeta -->
+      <div class="fifa-img-wrap">
+        <!-- src se asigna por JS. Ruta: /static/img/jugadorN.png -->
+        <img id="fifa-foto" src="" alt="" class="fifa-foto" />
+      </div>
+
+      <!-- Datos del jugador -->
+      <div class="fifa-datos">
+        <span class="fifa-posicion" id="fifa-posicion">—</span>
+        <h3 class="fifa-nombre" id="fifa-nombre">—</h3>
+        <div class="fifa-stats">
+          <div class="stat"><span class="s-et">Edad</span><span class="s-vl" id="fifa-edad">—</span></div>
+          <div class="stat"><span class="s-et">Altura</span><span class="s-vl" id="fifa-altura">—</span></div>
+          <div class="stat"><span class="s-et">Peso</span><span class="s-vl" id="fifa-peso">—</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="{% static 'js/equipos.js' %}"></script>
+</body>
+</html>
