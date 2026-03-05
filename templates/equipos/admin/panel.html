@@ -24,7 +24,7 @@
     <thead>
       <tr>
         <th>#</th><th>Nombre completo</th><th>Posición</th>
-        <th>Edad</th><th>Altura</th><th>Peso</th><th>Foto</th><th>Acciones</th>
+        <th>Edad</th><th>Altura</th><th>Peso</th><th>Foto</th><th>Acciones</th><th>Hobby</th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +34,7 @@
         <td class="td-nombre">{{ j.nombre_completo }}</td>
         <td><span class="badge-posicion">{{ j.posicion }}</span></td>
         <td>{{ j.edad }}</td>
+        <td>{{ j.hobby }}</td>
         <td>{{ j.altura_cm }} cm</td>
         <td>{{ j.peso_kg }} kg</td>
         <td class="td-foto">{{ j.foto }}</td>
@@ -43,7 +44,7 @@
         </td>
       </tr>
       {% empty %}
-      <tr><td colspan="8" class="td-vacio">Sin jugadores aún.</td></tr>
+      <tr><td colspan="9" class="td-vacio">Sin jugadores aún.</td></tr>
       {% endfor %}
     </tbody>
   </table>

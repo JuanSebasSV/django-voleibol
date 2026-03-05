@@ -34,6 +34,10 @@
       <div class="campo">
         <label>EDAD</label>
         <input type="number" name="edad" required min="16" max="50" value="{{ jugador.edad|default:'' }}"/>
+      <div class="campo">
+        <label>HOBBY</label>
+        <input type="text" name="hobby" required placeholder="caminata" value="{{ jugador.hobby|default:'' }}"/>
+      </div>
       </div>
       <div class="campo">
         <label>ALTURA (cm)</label>

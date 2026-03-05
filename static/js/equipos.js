@@ -268,6 +268,7 @@ function mostrarTarjetaJugador(j, el, claseColor) {
   document.getElementById('jugador-edad').textContent     = j.edad + ' años';
   document.getElementById('jugador-altura').textContent   = j.altura;
   document.getElementById('jugador-peso').textContent     = j.peso;
+  document.getElementById('jugador-hobby').textContent = j.hobby;
   const foto = document.getElementById('jugador-foto');
   foto.src = rutaImg(j.foto); foto.alt = j.nombreCompleto;
   tarjetaJugador.className = `tarjeta-jugador ${claseColor}`;

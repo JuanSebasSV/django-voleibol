@@ -7,12 +7,12 @@ from django.contrib import messages
 from .models import Equipo, Jugador
 
 
-# ── Vista pública ──────────────────────────────────────────────────────────────
+#  Vista pública 
 def equipos(request):
     return render(request, 'equipos/index.html')
 
 
-# ── API JSON ───────────────────────────────────────────────────────────────────
+#  API JSON 
 def api_equipos(request):
     data = {}
     for equipo in Equipo.objects.prefetch_related('jugadores').all():
@@ -24,6 +24,7 @@ def api_equipos(request):
                 {
                     'nombre':         j.nombre,
                     'nombreCompleto': j.nombre_completo,
+                    'hobby':          j.hobby,
                     'posicion':       j.posicion,
                     'edad':           j.edad,
                     'altura':         f'{j.altura_cm} cm',
@@ -36,15 +37,15 @@ def api_equipos(request):
     return JsonResponse(data)
 
 
-# ── Panel admin ────────────────────────────────────────────────────────────────
-@never_cache                                                  # ← agregar esto
+#  Panel admin 
+@never_cache                                                
 @login_required
 def admin_panel(request):
     equipos_list = Equipo.objects.prefetch_related('jugadores').all()
     return render(request, 'equipos/admin/panel.html', {'equipos': equipos_list})
 
 
-# ── Equipo: crear / editar ─────────────────────────────────────────────────────
+#  Equipo: crear / editar 
 @login_required
 def equipo_form(request, pk=None):
     equipo = get_object_or_404(Equipo, pk=pk) if pk else None
@@ -81,7 +82,7 @@ def equipo_eliminar(request, pk):
     return render(request, 'equipos/admin/confirmar_eliminar.html', {'objeto': equipo, 'tipo': 'equipo'})
 
 
-# ── Jugador: crear / editar ────────────────────────────────────────────────────
+#  Jugador: crear / editar 
 @login_required
 def jugador_form(request, equipo_pk, pk=None):
     equipo  = get_object_or_404(Equipo, pk=equipo_pk)
@@ -93,6 +94,7 @@ def jugador_form(request, equipo_pk, pk=None):
             orden           = int(d['orden']),
             nombre          = d['nombre'],
             nombre_completo = d['nombre_completo'],
+            hobby           = d['hobby'],
             posicion        = d['posicion'],
             edad            = int(d['edad']),
             altura_cm       = int(d['altura_cm']),

@@ -1,12 +1,8 @@
 'use strict';
 
-/* ═══════════════════════════════════════════════════════════
-   LIENZO DE FONDO — estrellas + borde serpiente
-   Un solo canvas fixed, z-index alto, pointer-events:none
-   Las estrellas se ven siempre porque este canvas está
-   ENCIMA de los slides (que son position:absolute dentro
-   de escena-principal, un stacking context separado).
-═══════════════════════════════════════════════════════════ */
+/* 
+   LIENZO DE FONDO
+ */
 const lienzoFondo = document.getElementById('lienzo-fondo');
 const ctxF        = lienzoFondo.getContext('2d');
 
@@ -97,10 +93,7 @@ function colorArco(p) {
   requestAnimationFrame(loop);
 })();
 
-/* ═══════════════════════════════════════════════════════════
-   DIAPOSITIVAS
-   Reemplaza imagen: null con la ruta real, ej: "/static/img/italia.jpg"
-═══════════════════════════════════════════════════════════ */
+/* DIAPOSITIVAS */
 const DIAPOSITIVAS = [
   { imagen: null, tinte: 'rgba(0,0,0,0.45)',   acento: '#ffffff', entrada: 'zoom' },
   { imagen: null, tinte: 'rgba(0,20,70,0.50)', acento: '#00C853', entrada: 'izq'  },
@@ -156,12 +149,7 @@ function mostrarTexto(idx) {
   });
 }
 
-/* ── Transición sin pallor ──
-   Técnica: el entrante empieza invisible encima (z-index mayor),
-   hace fade-in. El saliente nunca se desvanece — simplemente queda
-   debajo y se oculta con display:none al terminar.
-   Resultado: siempre hay un slide 100% opaco visible → cero pallor.
-═══════════════════════════════════════════════════════════ */
+/* ── Transición */
 const DURACION = 320;
 let animando = false;
 

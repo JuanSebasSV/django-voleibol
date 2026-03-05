@@ -28,6 +28,7 @@ class Jugador(models.Model):
     orden           = models.PositiveSmallIntegerField(default=0)   # 0-5, posición en cancha
     nombre          = models.CharField(max_length=60)               # apellido corto
     nombre_completo = models.CharField(max_length=120)
+    hobby = models.CharField(max_length=120, default='')    
     posicion        = models.CharField(max_length=30, choices=POSICIONES)
     edad            = models.PositiveSmallIntegerField()
     altura_cm       = models.PositiveSmallIntegerField()            # solo el número
