@@ -1,5 +1,48 @@
 /* ── admin.css ── */
-.admin-body { overflow-y: auto; }
+.admin-body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ── Forzar barra nav idéntica al resto del sitio ── */
+.admin-body .barra-nav {
+  padding: 1rem 2.5rem;
+}
+.admin-body .logo-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+.admin-body .logo-balon {
+  width: 42px;
+  height: 42px;
+  animation: pulso-logo 3s ease-in-out infinite;
+}
+.admin-body .logo-texto {
+  font-family: var(--fuente-titulo);
+  font-size: 1.6rem;
+  letter-spacing: 0.2em;
+  color: var(--blanco);
+  text-shadow: var(--brillo-blanco);
+}
+.admin-body .nav-enlaces {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.admin-body .nav-enlaces a {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--blanco-suave);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.admin-body .nav-enlaces a:hover { color: var(--verde); text-shadow: var(--brillo-verde); }
+.admin-body .nav-enlaces a.activo { color: var(--verde); text-shadow: var(--brillo-verde); }
 
 .admin-main {
   position: relative;
@@ -129,12 +172,10 @@
   white-space: nowrap;
   background: transparent;
 }
-/* Tamaños */
 .btn-admin:not(.btn-sm):not(.btn-xs) { font-size: 1rem; padding: .65rem 1.6rem; }
 .btn-sm  { font-size: .75rem; padding: .4rem .9rem; }
 .btn-xs  { font-size: .65rem; padding: .28rem .65rem; }
 
-/* Colores */
 .btn-verde  { border-color: var(--verde); color: var(--verde); }
 .btn-verde:hover  { background: rgba(0,200,83,.15); box-shadow: 0 0 14px rgba(0,200,83,.35); }
 .btn-blanco { border-color: rgba(255,255,255,.3); color: rgba(255,255,255,.8); }

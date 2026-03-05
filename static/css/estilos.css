@@ -1,58 +1,41 @@
-/*ESTILOS.CSS — Página de Voleibol
-   Paleta: Negro dominante | Blanco, Verde (#00C853), Rojo (#E53935)*/
+/*  ESTILOS.CSS — Página de Voleibol
+    Paleta: Negro | Blanco, Verde (#00C853), Rojo (#E53935) */
 
-/* ---------- Variables ---------- */
+/* ── Variables ── */
 :root {
-  --negro: #000000;
-  --negro-suave: #050505;
-  --negro-medio: #0a0a0a;
-  --blanco: #ffffff;
-  --blanco-suave: #F0F0F0;
-  --verde: #00C853;
-  --verde-oscuro: #1DB954;
-  --rojo: #E53935;
-  --rojo-vivo: #FF1744;
+  --negro:         #000000;
+  --negro-suave:   #050505;
+  --blanco:        #ffffff;
+  --blanco-suave:  #F0F0F0;
+  --verde:         #00C853;
+  --rojo:          #E53935;
+  --rojo-vivo:     #FF1744;
   --fuente-titulo: 'Bebas Neue', sans-serif;
   --fuente-cuerpo: 'Chakra Petch', sans-serif;
   --brillo-blanco: 0 0 8px #fff, 0 0 20px rgba(255,255,255,0.6);
-  --brillo-verde: 0 0 8px #00C853, 0 0 25px rgba(0,200,83,0.5);
-  --brillo-rojo: 0 0 8px #E53935, 0 0 25px rgba(229,57,53,0.5);
+  --brillo-verde:  0 0 8px #00C853, 0 0 25px rgba(0,200,83,0.5);
+  --brillo-rojo:   0 0 8px #E53935, 0 0 25px rgba(229,57,53,0.5);
 }
 
-/* ---------- Reset y base ---------- */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html  { scroll-behavior: smooth; }
+body  { background: var(--negro); color: var(--blanco); font-family: var(--fuente-cuerpo); overflow-x: hidden; }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: var(--negro);
-  color: var(--blanco);
-  font-family: var(--fuente-cuerpo);
-  overflow-x: hidden;
-}
-
-/*CANVAS DE FONDO (partículas)*/
-#canvas-fondo {
+/* ── Lienzo de fondo (partículas) ── */
+#lienzo-fondo {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
   pointer-events: none;
 }
 
-/*BARRA DE NAVEGACIÓN*/
+/* ── Barra de navegación ── */
 .barra-nav {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: 100%;
   z-index: 100;
   display: flex;
@@ -63,10 +46,12 @@ body {
   backdrop-filter: blur(4px);
 }
 
-.nav-logo {
+/* Logo (balón + texto) — clickeable al inicio */
+.logo-nav {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  cursor: pointer;
   text-decoration: none;
 }
 
@@ -78,7 +63,7 @@ body {
 
 @keyframes pulso-logo {
   0%, 100% { filter: drop-shadow(0 0 4px rgba(255,255,255,0.4)); }
-  50% { filter: drop-shadow(0 0 10px rgba(0,200,83,0.7)); }
+  50%       { filter: drop-shadow(0 0 10px rgba(0,200,83,0.7)); }
 }
 
 .logo-texto {
@@ -106,23 +91,43 @@ body {
   transition: color 0.3s, text-shadow 0.3s;
 }
 
-.nav-enlaces a:hover {
-  color: var(--verde);
-  text-shadow: var(--brillo-verde);
-}
+.nav-enlaces a:hover { color: var(--verde); text-shadow: var(--brillo-verde); }
 
-/*SECCIÓN PRINCIPAL — pantalla completa fija
-   El scroll nativo está bloqueado; JS maneja todo*/
+/* Botón acceso (discreto) */
+.nav-acceso {
+  opacity: 0.3;
+  font-size: 0.7rem !important;
+  transition: opacity 0.3s !important;
+}
+.nav-acceso:hover { opacity: 0.8; color: var(--blanco) !important; text-shadow: none !important; }
+
+/* Botón salir */
+button.nav-salir {
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--rojo);
+  text-transform: uppercase;
+  transition: color 0.3s, text-shadow 0.3s;
+  padding: 0;
+}
+button.nav-salir:hover { color: var(--rojo-vivo); text-shadow: var(--brillo-rojo); }
+
+/* ── Sección principal ── */
 .seccion-principal {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100vh;
   z-index: 1;
 }
 
-.escena-sticky {
+.escena-principal {
   position: relative;
   width: 100%;
   height: 100%;
@@ -130,39 +135,45 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding-top: 72px;
+  box-sizing: border-box;
 }
 
-/* Canvas de animación (jugador + balón) */
-#canvas-animacion {
+/* Lienzo de animación (oculto, solo existe para compatibilidad) */
+#lienzo-animacion {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
 }
 
-/*TEXTOS DE CADA FRAME*/
+/* ── Contenedor y bloques de texto ── */
 .contenedor-textos {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 10;
   pointer-events: none;
 }
 
-.texto-frame {
+.bloque-texto {
   position: absolute;
   bottom: 12vh;
   left: 6vw;
   max-width: 520px;
-  pointer-events: all;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.texto-frame.oculto {
+.bloque-texto.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.bloque-texto.oculto {
   opacity: 0;
   transform: translateY(20px);
   pointer-events: none;
@@ -197,44 +208,31 @@ body {
   margin-bottom: 2rem;
 }
 
-/* Acentos de color en títulos */
-.acento-blanco {
-  color: var(--blanco);
-  text-shadow: var(--brillo-blanco);
-}
+/* Acentos de color */
+.acento-blanco { color: var(--blanco);    text-shadow: var(--brillo-blanco); }
+.acento-verde  { color: var(--verde);     text-shadow: var(--brillo-verde);  }
+.acento-rojo   { color: var(--rojo-vivo); text-shadow: var(--brillo-rojo);   }
 
-.acento-verde {
-  color: var(--verde);
-  text-shadow: var(--brillo-verde);
-}
-
-.acento-rojo {
-  color: var(--rojo-vivo);
-  text-shadow: var(--brillo-rojo);
-}
-
-/*BOTÓN LIQUID GLASS CON FUEGO*/
+/* ── Botón cristal con fuego ── */
 .boton-cristal {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 1rem 2.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(229, 57, 53, 0.6);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(229,57,53,0.6);
   border-radius: 4px;
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   text-decoration: none;
   overflow: visible;
   cursor: pointer;
   transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
   box-shadow: 0 0 15px rgba(229,57,53,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
 }
-
 .boton-cristal:hover {
-  background: rgba(229, 57, 53, 0.12);
-  border-color: rgba(255, 23, 68, 0.9);
+  background: rgba(229,57,53,0.12);
+  border-color: rgba(255,23,68,0.9);
   box-shadow: 0 0 30px rgba(229,57,53,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
@@ -248,7 +246,6 @@ body {
   z-index: 2;
 }
 
-/* Fuego debajo del botón */
 .fuego-boton {
   position: absolute;
   bottom: -12px;
@@ -258,7 +255,6 @@ body {
   height: 20px;
   pointer-events: none;
 }
-
 .fuego-boton::before,
 .fuego-boton::after {
   content: '';
@@ -267,40 +263,24 @@ body {
   border-radius: 50% 50% 30% 30%;
   animation: llamita 0.8s ease-in-out infinite alternate;
 }
-
 .fuego-boton::before {
-  width: 60%;
-  height: 18px;
-  left: 20%;
+  width: 60%; height: 18px; left: 20%;
   background: radial-gradient(ellipse at bottom, #FF6D00, #E53935, transparent);
-  animation-delay: 0s;
   opacity: 0.85;
 }
-
 .fuego-boton::after {
-  width: 35%;
-  height: 14px;
-  left: 32%;
+  width: 35%; height: 14px; left: 32%;
   background: radial-gradient(ellipse at bottom, #FFD600, #FF6D00, transparent);
-  animation-delay: 0.15s;
-  opacity: 0.9;
+  animation-delay: 0.15s; opacity: 0.9;
 }
-
 @keyframes llamita {
-  0% { transform: scaleX(1) scaleY(1) translateY(0); }
+  0%   { transform: scaleX(1)    scaleY(1)   translateY(0);    }
   100% { transform: scaleX(0.85) scaleY(1.2) translateY(-3px); }
 }
+.boton-cristal:hover .fuego-boton::before { height: 26px; opacity: 1; }
+.boton-cristal:hover .fuego-boton::after  { height: 20px; opacity: 1; }
 
-.boton-cristal:hover .fuego-boton::before {
-  height: 26px;
-  opacity: 1;
-}
-.boton-cristal:hover .fuego-boton::after {
-  height: 20px;
-  opacity: 1;
-}
-
-/*PLANTILLA EQUIPOS (placeholder)*/
+/* ── Plantilla equipos (placeholder) ── */
 .pagina-equipos {
   min-height: 100vh;
   display: flex;
@@ -312,70 +292,9 @@ body {
   color: var(--blanco);
   font-family: var(--fuente-titulo);
 }
-
 .pagina-equipos h1 {
   font-size: 4rem;
   letter-spacing: 0.1em;
   color: var(--verde);
   text-shadow: var(--brillo-verde);
-}
-
-/*ANIMACIONES CSS GLOBALES*/
-
-/* Rotación continua del balón (se aplica desde JS con clase) */
-@keyframes rotar-balon {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Destello de impacto */
-@keyframes destello-impacto {
-  0% { opacity: 0; transform: scale(0.5); }
-  30% { opacity: 1; transform: scale(1.2); }
-  100% { opacity: 0; transform: scale(2); }
-}
-
-/* Pulso neón genérico */
-@keyframes pulso-neon {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-/* Línea de velocidad */
-@keyframes estela-vel {
-  from { opacity: 0.8; transform: scaleX(1); }
-  to { opacity: 0; transform: scaleX(2); }
-}
-
-/*login */
-.nav-login {
-  opacity: 0.3;
-  font-size: 0.7rem !important;
-  transition: opacity 0.3s !important;
-}
-.nav-login:hover {
-  opacity: 0.8;
-  color: var(--blanco) !important;
-  text-shadow: none !important;
-}
-
-button.nav-logout {
-  appearance: none;
-  -webkit-appearance: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--fuente-cuerpo);
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  color: var(--rojo);
-  text-transform: uppercase;
-  transition: color 0.3s, text-shadow 0.3s;
-  padding: 0;
-  line-height: normal;
-}
-button.nav-logout:hover {
-  color: var(--rojo-vivo);
-  text-shadow: var(--brillo-rojo);
 }

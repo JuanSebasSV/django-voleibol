@@ -13,10 +13,24 @@
 </head>
 <body class="admin-body">
 
-  <canvas id="canvas-fondo"></canvas>
+  <canvas id="lienzo-fondo"></canvas>
 
   <nav class="barra-nav">
-    <div class="nav-logo">
+    <div class="logo-nav" id="logo-inicio">
+      <svg class="logo-balon" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="brillo-logo">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <circle cx="30" cy="30" r="26" fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#brillo-logo)" opacity="0.9"/>
+        <path d="M 10 20 Q 30 5 50 20" fill="none" stroke="#00C853" stroke-width="1.8" filter="url(#brillo-logo)"/>
+        <path d="M 10 40 Q 30 55 50 40" fill="none" stroke="#E53935" stroke-width="1.8" filter="url(#brillo-logo)"/>
+        <path d="M 15 12 Q 8 30 15 48" fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#brillo-logo)" opacity="0.7"/>
+        <path d="M 45 12 Q 52 30 45 48" fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#brillo-logo)" opacity="0.7"/>
+        <path d="M 30 4 Q 30 30 30 56" fill="none" stroke="#00C853" stroke-width="1.2" filter="url(#brillo-logo)" opacity="0.5"/>
+      </svg>
       <span class="logo-texto">VOLEIBOL</span>
     </div>
     <ul class="nav-enlaces">
@@ -27,7 +41,7 @@
         <li>
           <form method="post" action="/accounts/logout/" style="margin:0">
             {% csrf_token %}
-            <button type="submit" class="nav-logout">Salir</button>
+            <button type="submit" class="nav-salir">Salir</button>
           </form>
         </li>
       {% endif %}
@@ -47,8 +61,12 @@
   </main>
 
   <script>
+    document.getElementById('logo-inicio').addEventListener('click', () => {
+      window.location.href = '/';
+    });
+
     (function() {
-      const cv  = document.getElementById('canvas-fondo');
+      const cv  = document.getElementById('lienzo-fondo');
       const ctx = cv.getContext('2d');
       let pts   = [];
 
@@ -73,13 +91,13 @@
       addEventListener('resize', resize);
 
       (function loop() {
-        ctx.clearRect(0, 0, cv.width, cv.height);
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, cv.width, cv.height);
         pts.forEach(p => {
-          p.x += p.vx;
-          p.y += p.vy;
-          if (p.x < 0)        p.x = cv.width;
-          if (p.x > cv.width) p.x = 0;
-          if (p.y < 0)        p.y = cv.height;
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0)         p.x = cv.width;
+          if (p.x > cv.width)  p.x = 0;
+          if (p.y < 0)         p.y = cv.height;
           if (p.y > cv.height) p.y = 0;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);

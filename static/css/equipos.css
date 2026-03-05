@@ -2,13 +2,13 @@
    EQUIPOS.CSS
    ============================================================ */
 
-/* ── Vistas ──────────────────────────────────────────────── */
+/* ── Vistas ── */
 #vista-seleccion,
 #vista-cancha {
   position: fixed;
   inset: 0;
   z-index: 2;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
+  transition: opacity .6s ease, visibility .6s ease;
 }
 
 #vista-seleccion {
@@ -21,38 +21,35 @@
   overflow: hidden;
   opacity: 1;
   visibility: visible;
-  pointer-events: all;
 }
-
-#vista-seleccion.oculta {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
+#vista-seleccion.oculta { opacity: 0; visibility: hidden; pointer-events: none; }
 
 #vista-cancha {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 4rem 1.5rem 0.5rem;
+  padding: 80px 1.5rem .5rem;
   overflow: hidden;
   opacity: 0;
-  visibility: hidden;
   pointer-events: none;
 }
-
+#vista-cancha.preparando {
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+}
 #vista-cancha.visible {
+  display: flex;
   opacity: 1;
-  visibility: visible;
   pointer-events: all;
 }
 
-/* ── Título selección ────────────────────────────────────── */
+/* ── Título selección ── */
 .seleccion-titulo { text-align: center; }
-.seleccion-titulo .texto-titulo { font-size: clamp(3rem,6vw,5.5rem); margin-top:.3rem; }
+.seleccion-titulo .texto-titulo { font-size: clamp(3rem,6vw,5.5rem); margin-top: .3rem; }
 
-/* ── Grid de tarjetas ────────────────────────────────────── */
+/* ── Grid de tarjetas ── */
 .contenedor-tarjetas {
   display: flex;
   gap: 2rem;
@@ -62,7 +59,7 @@
   max-width: 1150px;
 }
 
-/* ── Tarjeta equipo ──────────────────────────────────────── */
+/* ── Tarjeta equipo ── */
 .tarjeta-equipo {
   position: relative;
   display: flex;
@@ -72,17 +69,16 @@
   border-radius: 6px;
   overflow: visible;
   cursor: pointer;
-  background: rgba(6,6,6,0.88);
+  background: rgba(6,6,6,.88);
   transition: transform .35s cubic-bezier(.34,1.56,.64,1);
   outline: none;
   flex-shrink: 0;
 }
 .tarjeta-equipo:hover,
-.tarjeta-equipo:focus-visible {
-  transform: scale(1.05) translateY(-8px);
-}
+.tarjeta-equipo:focus-visible { transform: scale(1.05) translateY(-8px); }
 
-.canvas-borde {
+/* Lienzo del borde serpiente */
+.lienzo-borde {
   position: absolute;
   inset: -2px;
   width: calc(100% + 4px);
@@ -100,7 +96,6 @@
   justify-content: center;
   padding: 1.8rem 1.5rem 1.2rem;
   border-bottom: 1px solid rgba(255,255,255,.08);
-  overflow: hidden;
 }
 .escudo-equipo {
   max-width: 100%;
@@ -143,8 +138,8 @@
   text-transform: uppercase;
 }
 
-/* ── Cancha ──────────────────────────────────────────────── */
-.cancha-encabezado { text-align: center; margin-bottom:.6rem; flex-shrink:0; }
+/* ── Cancha ── */
+.cancha-encabezado { text-align: center; margin-bottom: .6rem; flex-shrink: 0; }
 .cancha-titulo {
   font-family: var(--fuente-titulo);
   font-size: clamp(2.4rem,5vw,4.2rem);
@@ -154,7 +149,6 @@
   line-height: 1;
 }
 
-/* Contenedor principal de la escena */
 .escena-cancha {
   position: relative;
   width: 100%;
@@ -162,9 +156,7 @@
   flex: 1;
   min-height: 0;
 }
-
-/* Canvas ocupa todo el contenedor */
-#canvas-cancha {
+#lienzo-cancha {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -172,23 +164,17 @@
   display: block;
 }
 
-/* Grid de jugadores superpuesto al canvas */
-.grid-jugadores {
+/* Cuadrícula de jugadores */
+.cuadricula-jugadores {
   position: absolute;
-  /* Ocupa la zona de la cancha dentro del canvas:
-     el canvas dibuja la red en ~10% y la base en ~95%
-     Los jugadores van dentro de esa zona */
-  top: 20%;
-  bottom: 5%;
-  left: 8%;
-  right: 8%;
+  top: 20%; bottom: 5%; left: 8%; right: 8%;
   display: grid;
   grid-template-columns: repeat(3,1fr);
   grid-template-rows: repeat(2,1fr);
   gap: .5rem;
 }
 
-/* ── Avatar de jugador ───────────────────────────────────── */
+/* ── Avatar jugador ── */
 .posicion-jugador {
   display: flex;
   flex-direction: column;
@@ -202,33 +188,24 @@
 }
 .posicion-jugador:hover { background: rgba(255,255,255,.04); }
 
-/* Contenedor del SVG con efecto elevado */
 .icono-jugador {
-  width: clamp(48px, 6.5vw, 82px);
-  height: clamp(44px, 6vw, 74px);
+  width: clamp(48px,6.5vw,82px);
+  height: clamp(44px,6vw,74px);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  /* Elevación: sombra inferior que simula que flota sobre la cancha */
-  filter: drop-shadow(0 10px 14px rgba(0,0,0,0.9))
-          drop-shadow(0 4px 6px rgba(0,0,0,0.95));
+  filter: drop-shadow(0 10px 14px rgba(0,0,0,.9)) drop-shadow(0 4px 6px rgba(0,0,0,.95));
   transform: translateY(-4px);
   transition: transform .3s cubic-bezier(.34,1.56,.64,1), filter .3s;
 }
-
 .posicion-jugador:hover .icono-jugador {
   transform: translateY(-10px) scale(1.1);
-  filter: drop-shadow(0 16px 20px rgba(0,0,0,0.95))
-          drop-shadow(0 0 12px rgba(255,255,255,0.6))
-          drop-shadow(0 0 28px rgba(0,200,83,0.45));
+  filter: drop-shadow(0 16px 20px rgba(0,0,0,.95))
+          drop-shadow(0 0 12px rgba(255,255,255,.6))
+          drop-shadow(0 0 28px rgba(0,200,83,.45));
 }
+.icono-jugador svg { width: 100%; height: 100%; }
 
-.icono-jugador svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Nombre del jugador — legible, sin neón para no competir con el glow del avatar */
 .nombre-jugador {
   font-family: var(--fuente-cuerpo);
   font-size: clamp(.52rem,.85vw,.7rem);
@@ -241,15 +218,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  /* Sombra de texto oscura para legibilidad sobre la cancha */
   text-shadow: 0 1px 4px #000, 0 0 8px #000;
 }
 
-/* ── Botón volver ────────────────────────────────────────── */
+/* ── Botón volver ── */
 .btn-volver {
   position: fixed;
-  top: 1.1rem;
-  right: 2rem;
+  top: 1.1rem; right: 2rem;
   z-index: 200;
   display: flex;
   align-items: center;
@@ -266,11 +241,11 @@
   transition: border-color .3s, background .3s, color .3s;
   backdrop-filter: blur(8px);
 }
-.btn-volver svg { width:18px; height:18px; }
-.btn-volver:hover { border-color:var(--verde); background:rgba(0,200,83,.1); color:var(--verde); }
+.btn-volver svg { width: 18px; height: 18px; }
+.btn-volver:hover { border-color: var(--verde); background: rgba(0,200,83,.1); color: var(--verde); }
 
-/* ── Tarjeta FIFA ─────────────────────────────────────────── */
-.tarjeta-fifa {
+/* ── Tarjeta jugador ── */
+.tarjeta-jugador {
   position: fixed;
   width: 230px;
   z-index: 600;
@@ -280,119 +255,110 @@
   transition: opacity .28s cubic-bezier(.34,1.56,.64,1),
               transform .28s cubic-bezier(.34,1.56,.64,1);
 }
-.tarjeta-fifa.visible {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
+.tarjeta-jugador.visible { opacity: 1; transform: scale(1) translateY(0); }
 
-.fifa-cuerpo {
+.jugador-cuerpo {
   position: relative;
   background: rgba(6,6,6,.92);
   border: 1.5px solid rgba(0,200,83,.65);
   border-radius: 10px;
   backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   box-shadow: 0 0 22px rgba(0,200,83,.35), 0 0 55px rgba(0,200,83,.12),
               inset 0 1px 0 rgba(255,255,255,.07);
-  /* Espacio para la imagen desbordante */
-  padding-top: 100px;
+  padding-top: 115px;
   overflow: visible;
 }
 
-/* Color según equipo */
-.equipo-italia .fifa-cuerpo {
-  border-color: rgba(0,120,255,.7);
-  box-shadow: 0 0 22px rgba(0,120,255,.35), 0 0 55px rgba(0,120,255,.12), inset 0 1px 0 rgba(255,255,255,.07);
-}
-.equipo-polonia .fifa-cuerpo {
-  border-color: rgba(220,50,50,.7);
-  box-shadow: 0 0 22px rgba(220,50,50,.35), 0 0 55px rgba(220,50,50,.12), inset 0 1px 0 rgba(255,255,255,.07);
-}
-.equipo-brasil .fifa-cuerpo {
-  border-color: rgba(255,210,0,.7);
-  box-shadow: 0 0 22px rgba(255,210,0,.35), 0 0 55px rgba(255,210,0,.12), inset 0 1px 0 rgba(255,255,255,.07);
-}
+/* Color por equipo */
+.equipo-italia  .jugador-cuerpo { border-color: rgba(0,120,255,.7);  box-shadow: 0 0 22px rgba(0,120,255,.35),  0 0 55px rgba(0,120,255,.12),  inset 0 1px 0 rgba(255,255,255,.07); }
+.equipo-polonia .jugador-cuerpo { border-color: rgba(220,50,50,.7);  box-shadow: 0 0 22px rgba(220,50,50,.35),  0 0 55px rgba(220,50,50,.12),  inset 0 1px 0 rgba(255,255,255,.07); }
+.equipo-brasil  .jugador-cuerpo { border-color: rgba(255,210,0,.7);  box-shadow: 0 0 22px rgba(255,210,0,.35),  0 0 55px rgba(255,210,0,.12),  inset 0 1px 0 rgba(255,255,255,.07); }
 
-/* Imagen desbordante — el jugador "flota" saliendo por arriba */
-.fifa-img-wrap {
+.jugador-foto-wrap {
   position: absolute;
-  top: -110px;       /* desborde hacia arriba */
-  left: 50%;
+  top: -80px; left: 50%;
   transform: translateX(-50%);
-  width: 175px;
-  height: 220px;
-  pointer-events: none;
-  overflow: visible;
+  width: 155px; height: 190px;
+  pointer-events: none; overflow: visible;
 }
-.fifa-foto {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center bottom;
+.jugador-foto {
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center bottom;
   display: block;
-  /* Sombra fuerte para que parezca que está por encima de la tarjeta */
-  filter: drop-shadow(0 -6px 18px rgba(0,0,0,1))
-          drop-shadow(0 4px 10px rgba(0,0,0,1));
+  filter: drop-shadow(0 -6px 18px rgba(0,0,0,1)) drop-shadow(0 4px 10px rgba(0,0,0,1));
 }
 
-/* Datos */
-.fifa-datos { padding: .6rem 1rem 1rem; }
+.jugador-datos { padding: .6rem 1rem 1rem; }
 
-.fifa-posicion {
+.jugador-posicion {
   font-family: var(--fuente-cuerpo);
-  font-size: .6rem;
-  font-weight: 600;
-  letter-spacing: .25em;
-  color: var(--verde);
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: .15rem;
+  font-size: .6rem; font-weight: 600;
+  letter-spacing: .25em; color: var(--verde);
+  text-transform: uppercase; display: block; margin-bottom: .15rem;
 }
-.equipo-italia  .fifa-posicion { color: #4db8ff; }
-.equipo-polonia .fifa-posicion { color: #ff5555; }
-.equipo-brasil  .fifa-posicion { color: #ffd200; }
+.equipo-italia  .jugador-posicion { color: #4db8ff; }
+.equipo-polonia .jugador-posicion { color: #ff5555; }
+.equipo-brasil  .jugador-posicion { color: #ffd200; }
 
-.fifa-nombre {
+.jugador-nombre {
   font-family: var(--fuente-titulo);
-  font-size: 1.3rem;
-  letter-spacing: .05em;
-  color: #fff;
-  line-height: 1.1;
-  margin-bottom: .6rem;
+  font-size: 1.3rem; letter-spacing: .05em;
+  color: #fff; line-height: 1.1; margin-bottom: .6rem;
 }
-.fifa-stats {
-  display: flex;
-  flex-direction: column;
-  gap: .3rem;
-  border-top: 1px solid rgba(255,255,255,.1);
-  padding-top: .5rem;
+.jugador-stats {
+  display: flex; flex-direction: column; gap: .3rem;
+  border-top: 1px solid rgba(255,255,255,.1); padding-top: .5rem;
 }
-.stat {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.s-et {
+.stat { display: flex; justify-content: space-between; align-items: center; }
+.stat-etiqueta {
   font-family: var(--fuente-cuerpo);
-  font-size: .6rem;
-  font-weight: 300;
-  letter-spacing: .14em;
-  color: rgba(255,255,255,.38);
-  text-transform: uppercase;
+  font-size: .6rem; font-weight: 300;
+  letter-spacing: .14em; color: rgba(255,255,255,.38); text-transform: uppercase;
 }
-.s-vl {
-  font-family: var(--fuente-cuerpo);
-  font-size: .72rem;
-  font-weight: 600;
-  color: rgba(255,255,255,.92);
-}
+.stat-valor { font-family: var(--fuente-cuerpo); font-size: .72rem; font-weight: 600; color: rgba(255,255,255,.92); }
 
-/* ── Nav activo ──────────────────────────────────────────── */
-.nav-enlaces a.activo { color:var(--verde); text-shadow:var(--brillo-verde); }
+/* ── Nav activo ── */
+.nav-enlaces a.activo { color: var(--verde); text-shadow: var(--brillo-verde); }
 
-/* ── Responsive ──────────────────────────────────────────── */
+/* ── Responsive ── */
 @media (max-width: 768px) {
-  .contenedor-tarjetas { flex-direction:column; align-items:center; overflow-y:auto; max-height:80vh; }
-  .tarjeta-equipo { width:min(88vw,310px); }
-  .grid-jugadores { top:18%; left:4%; right:4%; }
+  .contenedor-tarjetas { flex-direction: column; align-items: center; overflow-y: auto; max-height: 80vh; }
+  .tarjeta-equipo { width: min(88vw,310px); }
+  .cuadricula-jugadores { top: 18%; left: 4%; right: 4%; }
 }
+#lienzo-fondo {
+  background: #000;
+}
+
+/* ── Flechas navegación equipos ── */
+.btn-flecha {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(0,0,0,.6);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: border-color .3s, background .3s, color .3s, opacity .3s;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+}
+.btn-flecha svg { width: 20px; height: 20px; }
+.btn-flecha-izq { left: 1.2rem; }
+.btn-flecha-der { right: 1.2rem; }
+.btn-flecha:hover { border-color: var(--verde); background: rgba(0,200,83,.1); color: var(--verde); }
+
+#vista-cancha.visible .btn-flecha {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.btn-flecha.oculto { opacity: 0 !important; pointer-events: none !important; }

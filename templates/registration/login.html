@@ -13,7 +13,7 @@
 </head>
 <body class="login-body">
 
-  <canvas id="canvas-fondo"></canvas>
+  <canvas id="lienzo-fondo"></canvas>
 
   <!-- Logo arriba -->
   <a href="/" class="login-logo">
@@ -38,7 +38,6 @@
   <div class="login-wrap">
 
     <div class="login-card">
-      <!-- Borde animado (canvas) -->
       <canvas class="login-borde" aria-hidden="true"></canvas>
 
       <div class="login-card-inner">
@@ -95,21 +94,39 @@
   <script>
     // Partículas fondo
     (function(){
-      const cv=document.getElementById('canvas-fondo');
-      const ctx=cv.getContext('2d');
-      let pts=[];
-      function resize(){cv.width=innerWidth;cv.height=innerHeight;}
-      function mkP(){return{x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.4+0.3,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,op:Math.random()*.35+.05};}
-      resize();pts=Array.from({length:60},mkP);
-      addEventListener('resize',resize);
-      (function loop(){
-        ctx.clearRect(0,0,cv.width,cv.height);
-        pts.forEach(p=>{
-          p.x+=p.vx;p.y+=p.vy;
-          if(p.x<0)p.x=cv.width;if(p.x>cv.width)p.x=0;
-          if(p.y<0)p.y=cv.height;if(p.y>cv.height)p.y=0;
-          ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-          ctx.fillStyle=`rgba(255,255,255,${p.op})`;ctx.fill();
+      const cv  = document.getElementById('lienzo-fondo');
+      const ctx = cv.getContext('2d');
+      let pts   = [];
+      function resize() {
+        cv.width  = innerWidth;
+        cv.height = innerHeight;
+      }
+      function mkP() {
+        return {
+          x:  Math.random() * cv.width,
+          y:  Math.random() * cv.height,
+          r:  Math.random() * 1.4 + 0.3,
+          vx: (Math.random() - .5) * .3,
+          vy: (Math.random() - .5) * .3,
+          op: Math.random() * .35 + .05,
+        };
+      }
+      resize();
+      pts = Array.from({ length: 60 }, mkP);
+      addEventListener('resize', resize);
+      (function loop() {
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, cv.width, cv.height);
+        pts.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0)         p.x = cv.width;
+          if (p.x > cv.width)  p.x = 0;
+          if (p.y < 0)         p.y = cv.height;
+          if (p.y > cv.height) p.y = 0;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${p.op})`;
+          ctx.fill();
         });
         requestAnimationFrame(loop);
       })();
@@ -119,51 +136,70 @@
     (function(){
       const card = document.querySelector('.login-card');
       const cb   = document.querySelector('.login-borde');
-      if(!card||!cb) return;
+      if (!card || !cb) return;
 
-      function aj(){
-        const r=card.getBoundingClientRect();
-        if(r.width>0&&r.height>0){cb.width=r.width+4;cb.height=r.height+4;}
+      function aj() {
+        const r = card.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) {
+          cb.width  = r.width  + 4;
+          cb.height = r.height + 4;
+        }
       }
       new ResizeObserver(aj).observe(card);
-      addEventListener('resize',aj);
+      addEventListener('resize', aj);
       requestAnimationFrame(aj);
 
-      const ctx=cb.getContext('2d');
-      let t=0;
-      const LEN=0.38, vel=0.0018;
+      const ctx = cb.getContext('2d');
+      let t = 0;
+      const LEN = 0.38, vel = 0.0018;
 
-      function col(p){
-        if(p<.5){const f=p/.5;return `rgb(${~~(f*255)},${~~(200+f*55)},${~~(83+f*172)})`;}
-        else{const f=(p-.5)/.5;return `rgb(255,${~~(255-f*255)},${~~(255-f*255)})`;}
+      function col(p) {
+        if (p < .5) { const f = p / .5; return `rgb(${~~(f*255)},${~~(200+f*55)},${~~(83+f*172)})`; }
+        const f = (p - .5) / .5; return `rgb(255,${~~(255-f*255)},${~~(255-f*255)})`;
       }
 
-      function genPts(w,h,r,n){
-        const ps=[],paso=(2*(w-2*r)+2*(h-2*r)+2*Math.PI*r)/n;
-        function seg(x0,y0,x1,y1){const d=Math.hypot(x1-x0,y1-y0),s=Math.max(1,~~(d/paso));for(let i=0;i<s;i++){const f=i/s;ps.push({x:x0+f*(x1-x0),y:y0+f*(y1-y0)});}}
-        function arc(cx,cy,ra,a0,a1){const s=Math.max(2,~~(ra*Math.abs(a1-a0)/paso));for(let i=0;i<s;i++){const a=a0+i/s*(a1-a0);ps.push({x:cx+Math.cos(a)*ra,y:cy+Math.sin(a)*ra});}}
-        const PI=Math.PI;
-        seg(r,0,w-r,0);arc(w-r,r,r,-PI/2,0);seg(w,r,w,h-r);arc(w-r,h-r,r,0,PI/2);
-        seg(w-r,h,r,h);arc(r,h-r,r,PI/2,PI);seg(0,h-r,0,r);arc(r,r,r,PI,3*PI/2);
+      function genPts(w, h, r, n) {
+        const ps = [], paso = (2*(w-2*r) + 2*(h-2*r) + 2*Math.PI*r) / n;
+        function seg(x0,y0,x1,y1) {
+          const d = Math.hypot(x1-x0, y1-y0), s = Math.max(1, ~~(d/paso));
+          for (let i = 0; i < s; i++) { const f = i/s; ps.push({x: x0+f*(x1-x0), y: y0+f*(y1-y0)}); }
+        }
+        function arc(cx,cy,ra,a0,a1) {
+          const s = Math.max(2, ~~(ra*Math.abs(a1-a0)/paso));
+          for (let i = 0; i < s; i++) { const a = a0+i/s*(a1-a0); ps.push({x: cx+Math.cos(a)*ra, y: cy+Math.sin(a)*ra}); }
+        }
+        const PI = Math.PI;
+        seg(r,0,w-r,0); arc(w-r,r,r,-PI/2,0);
+        seg(w,r,w,h-r); arc(w-r,h-r,r,0,PI/2);
+        seg(w-r,h,r,h); arc(r,h-r,r,PI/2,PI);
+        seg(0,h-r,0,r); arc(r,r,r,PI,3*PI/2);
         return ps;
       }
 
-      let pts2=[],uw=0,uh=0;
-      (function draw(){
-        const w=cb.width,h=cb.height;
-        ctx.clearRect(0,0,w,h);
-        if(!w||!h){requestAnimationFrame(draw);return;}
-        if(w!==uw||h!==uh){pts2=genPts(w,h,8,300);uw=w;uh=h;}
-        const n=pts2.length;if(n<2){requestAnimationFrame(draw);return;}
-        t=(t+vel)%1;
-        const cola=~~(((t-LEN+1)%1)*n),pasos=~~(n*LEN);
-        for(let i=0;i<pasos;i++){
-          const idx=(cola+i)%n,sig=(idx+1)%n,p=i/pasos;
-          ctx.beginPath();ctx.moveTo(pts2[idx].x,pts2[idx].y);ctx.lineTo(pts2[sig].x,pts2[sig].y);
-          ctx.strokeStyle=col(p);ctx.globalAlpha=.4+p*.6;ctx.lineWidth=1.5+p*2.5;
-          ctx.shadowColor=col(p);ctx.shadowBlur=8+p*12;ctx.stroke();
+      let pts2 = [], uw = 0, uh = 0;
+      (function draw() {
+        const w = cb.width, h = cb.height;
+        ctx.clearRect(0, 0, w, h);
+        if (!w || !h) { requestAnimationFrame(draw); return; }
+        if (w !== uw || h !== uh) { pts2 = genPts(w, h, 8, 300); uw = w; uh = h; }
+        const n = pts2.length;
+        if (n < 2) { requestAnimationFrame(draw); return; }
+        t = (t + vel) % 1;
+        const cola = ~~(((t - LEN + 1) % 1) * n), pasos = ~~(n * LEN);
+        for (let i = 0; i < pasos; i++) {
+          const idx = (cola+i)%n, sig = (idx+1)%n, p = i/pasos;
+          ctx.beginPath();
+          ctx.moveTo(pts2[idx].x, pts2[idx].y);
+          ctx.lineTo(pts2[sig].x, pts2[sig].y);
+          ctx.strokeStyle  = col(p);
+          ctx.globalAlpha  = .4 + p * .6;
+          ctx.lineWidth    = 1.5 + p * 2.5;
+          ctx.shadowColor  = col(p);
+          ctx.shadowBlur   = 8 + p * 12;
+          ctx.stroke();
         }
-        ctx.globalAlpha=1;ctx.shadowBlur=0;
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur  = 0;
         requestAnimationFrame(draw);
       })();
     })();
